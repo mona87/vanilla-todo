@@ -4,52 +4,55 @@ var section = document.getElementById('sect');
 var clear = document.getElementById('clear');
 var array = [];
 var myStorage = localStorage;
-console.log(localStorage)
+//console.log(localStorage);
 section.style.fontStyle = 'italic';
+//shows the string stored from the previous list/last session
 section.innerHTML = localStorage.getItem(0);
 
 btn.addEventListener('click', output);
-// clear.addEventListener('click', clearList);
+clear.addEventListener('click', clearList);
+
+//displays old string on refresh and grabs count from last session
 var oldlist = section.innerHTML;
-var count = 0;
+var count = localStorage.getItem(1);
+
 function output(event){
-
-
+	//updates count and in localstorage
 	count++
+	localStorage.setItem(1, count);
+
+	//adds new items to array 
 	array.push('<div>'+count+') '+input.value+'</div>');
-	
 	render();
 }
 
 function render(){
-	//clears input and section
+	//clears input in the box (but also erases the list)
 	input.value ='';
+	//shows the oldlist again
+	section.innerHTML = oldlist;
 
+	for(var i = 0; i <array.length; i++){
+		//appends new item to displaylist
+		section.innerHTML += array[i];			
+	}	
 
-		section.innerHTML = '';
-
-		for(var i = 0; i <array.length; i++){
-			
-			section.innerHTML += array[i];			
-		}	
-
-		var list = array.join('')
-		console.log(list);
-
-			myStorage.setItem(0, list);
-	
-			//console.log(myStorage.getItem(0));
-			//console.log(Array.isArray(myStorage.getItem(0)));
+	var list = section.innerHTML;
+	console.log(list);
+	console.log(localStorage.getItem(1));
+	myStorage.setItem(0, list);
 }
 
-// function clearList(){
+function clearList(event){
+	//resets everything
+	section.innerHTML = '';
+	oldlist = '';
+	count = 0;
+	myStorage.setItem(0, '');
+	myStorage.setItem(1, 0);
+	array = [];
 
-// 	section.innerHTML = '';
-// 	count = 0;
-// 	myStorage.setItem(0, '');
-// 	myStorage.setItem(1, 0);
-
-// }
+}
 
 
 	
